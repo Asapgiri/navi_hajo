@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="hu">
+  <head>
+    <title>Ship Project</title>
+    <meta charset="UTF-8">
+    <style>
+      body {
+        height: 700px;
+        margin: 0px;
+      }
+
+      .slider {
+        -webkit-appearance: none; /* WebKit */
+        top: -50px;
+        width: 500px;
+        height: 50px;
+        background: #d3d3d3;
+        outline: none;
+        opacity: 0.7;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+      }
+
+      .slider-vertical {
+        direction: rtl;
+        transform-origin: bottom left;
+        transform: rotate(90deg);
+      }
+
+      .slider:hover {
+        opacity: 1;
+      }
+
+      .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 50px;
+        height: 75px;
+        background: #04AA6D;
+        cursor: pointer;
+      }
+
+      .slider::-moz-range-thumb {
+        width: 25px;
+        height: 100%;
+        background: #04AA6D;
+        cursor: pointer;
+      }
+
+      #control_left {
+        position: fixed;
+        left: 0px;
+        width: 50px;
+        height: calc(100% - 50px);
+        margin: 25px;
+      }
+
+      #control_right {
+        position: fixed;
+        right: 0px;
+        width: 50px;
+        height: calc(100% - 50px);
+        margin: 25px;
+      }
+
+      #middle {
+        width: calc(100% - 200px);
+        height: 600px;
+        margin: 75px 0px;
+        left: 100px;
+        position: fixed;
+      }
+
+      #topper {
+        position: fixed;
+        margin: 0px 25px;
+      }
+      #answer_container {
+        position: absolute;
+        bottom: 0px;
+        width: 100%;
+        height: 150px;
+        margin: 0px;
+        overflow: auto;
+      }
+
+      #datas table {
+        width: 200px;
+      }
+      #datas th, #datas2 th, #datas3 th {
+        text-align: left;
+        padding-top: 15px;
+        margin-bottom: 3px;
+        padding-left: 10%;
+        border-bottom: 1px solid black;
+      }
+      #datas td, #datas2 td, #datas3 td {
+        width: 50%;
+      }
+      #datas2 th {
+        padding-top: 0px;
+      }
+
+      #datas {
+        position: absolute;
+        float: left;
+      }
+      #datas2 {
+        position: absolute;
+        float: left;
+        left: 200px;
+        max-width: 600px;
+        margin-top: 220px;
+      }
+      #datas2 table {
+        float: left;
+        min-width: 150px;
+        margin: 10px;
+      }
+
+      #datas3 {
+        position: absolute;
+        right: 0px;
+        min-width: 150px;
+        width: calc(100% - 800px);
+        height: 380px;
+      }
+      #datas3 table {
+        width: 100%;
+      }
+
+      #buttons_div {
+        position: absolute;
+        margin: 25px;
+        right: 0px;
+        top: 0px;
+      }
+      #buttons_div > * {
+        float: left;
+        margin-right: 10px;
+        border: 1px solid darkred;
+        padding: 3px;
+        height: 24px;
+        padding-right: 7px;
+        text-align: center;
+      }
+
+      .circle {
+        float: left;
+        position: relative;
+        margin: 10px;
+        width: 200px;
+        height: 200px;
+        -webkit-border-radius: 100px;
+        -moz-border-radius: 100px;
+        border-radius: 100px;
+        background: transparent;
+        border: 1px solid grey;
+      }
+      .line {
+        background: black;
+        height: 86px;
+        width: 2px;
+        margin: 50%;
+        transform-origin: top left;
+        transform: rotate(61deg);
+      }
+
+      .inner-text {
+        position: absolute;
+        background: transparent;
+        margin: 75% 25%;
+        width: 100px;
+        text-shadow: #04AA6D;
+        text-align: center;
+      }
+
+      .line-base {
+        position: absolute;
+        background: transparent;
+        height: 100px;
+        width: 1px;
+        margin: 50%;
+        transform-origin: top left;
+        font-size: small;
+      }
+      .line-base div {
+        position: absolute;
+        bottom: 3px;
+        height: 20px;
+        width: 1px;
+        background-color: black;
+      }
+      .line-base span {
+        position: absolute;
+        bottom: 1px;
+        left: 3px;
+      }
+      #__0percent {
+        transform: rotate(60deg);
+      }
+      #__0percent span {
+        transform: rotate(-60deg);
+      }
+      #__10percent {
+        transform: rotate(84deg);
+      }
+      #__10percent span {
+        transform: rotate(-84deg);
+      }
+      #__20percent {
+        transform: rotate(108deg);
+      }
+      #__20percent span {
+        transform: rotate(-108deg);
+      }
+      #__30percent {
+        transform: rotate(132deg);
+      }
+      #__30percent span {
+        transform: rotate(-132deg);
+      }
+      #__40percent {
+        transform: rotate(156deg);
+      }
+      #__40percent span {
+        transform: rotate(-156deg);
+      }
+      #__50percent {
+        transform: rotate(180deg);
+      }
+      #__50percent span {
+        transform: rotate(-180deg);
+      }
+      #__60percent {
+        transform: rotate(204deg);
+      }
+      #__60percent span {
+        transform: rotate(-204deg);
+      }
+      #__70percent {
+        transform: rotate(228deg);
+      }
+      #__70percent span {
+        transform: rotate(-228deg);
+      }
+      #__80percent {
+        transform: rotate(252deg);
+      }
+      #__80percent span {
+        transform: rotate(-252deg);
+      }
+      #__90percent {
+        transform: rotate(276deg);
+      }
+      #__90percent span {
+        transform: rotate(-276deg);
+      }
+      #__100percent {
+        transform: rotate(300deg);
+      }
+      #__100percent span {
+        transform: rotate(-300deg);
+      }
+      #__0percent div, #__100percent div {
+        height: 28px;
+      }
+      #__30percent div {
+        height: 28px;
+        background-color: red;
+      }
+      #__70percent div {
+        height: 28px;
+        background-color: red;
+      }
+
+      #__n75deg {
+        transform: rotate(60deg);
+      }
+      #__n75deg span {
+        transform: rotate(-60deg);
+      }
+      #__n50deg {
+        transform: rotate(100deg);
+      }
+      #__n50deg span {
+        transform: rotate(-100deg);
+      }
+      #__n25deg {
+        transform: rotate(140deg);
+      }
+      #__n25deg span {
+        transform: rotate(-140deg);
+      }
+      #__0deg {
+        transform: rotate(180deg);
+      }
+      #__0deg span {
+        transform: rotate(-180deg);
+      }
+      #__25deg {
+        transform: rotate(220deg);
+      }
+      #__25deg span {
+        transform: rotate(-220deg);
+      }
+      #__50deg {
+        transform: rotate(260deg);
+      }
+      #__50deg span {
+        transform: rotate(-260deg);
+      }
+      #__75deg {
+        transform: rotate(300deg);
+      }
+      #__75deg span {
+        transform: rotate(-300deg);
+      }
+      #__n75deg div, #__75deg div {
+        height: 28px;
+      }
+      #__0deg div {
+        height: 28px;
+        background-color: red;
+      }
+
+      #clocks {
+        position: absolute;
+        top: 0px;
+        left: 200px;
+      }
+
+      .red {
+        display: block;
+        float: left;
+        background: red;
+        width: 20px;
+        height: 20px;
+        margin: 0px;
+        margin-right: 3px;
+        border-radius: 3px;
+      }
+    </style>
+    <script>
+      var same_speed = true;
+      var can_send = true;
+      function sameSpeed(speed) {
+        document.getElementById('speedLeft').value = speed;
+        document.getElementById('speedRight').value = speed;
+        document.getElementById('speedlabel_left').innerText = (.01*speed*5).toFixed(2) + 'V | ' + speed;
+        document.getElementById('speedlabel_right').innerText = (.01*speed*5).toFixed(2) + 'V | ' + speed;
+        if (speed >= 0) document.getElementById('speed_line').style.transform = `rotate(${60+speed*2.4}deg)`;
+        else document.getElementById('speed_line').style.transform = `rotate(${60-speed*2.4}deg)`;
+      }
+      function setServoClock(deg) {
+          document.getElementById('deg_line').style.transform = `rotate(${180+deg*1.6}deg)`;
+      }
+      function sendBackMotorData(motor) {
+        if (can_send) {
+          can_send = false;
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+              log(this.response);
+            }
+          };
+          xhttp.open("GET", `/send_data?${motor == 'left' || same_speed ? 'ls=' + document.getElementById('speedLeft').value + '&' : ''}${motor == 'right' || same_speed ? 'rs=' + document.getElementById('speedRight').value : ''}`, true);
+          xhttp.send();
+          setTimeout(function() {
+            can_send = true;
+          }, 100);
+        }
+      }
+      function requestData() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200 && this.response != "") {
+            resp = JSON.parse(this.responseText);
+            log(this.response, resp.t);
+
+            switch (resp.t) {
+                case 'sl':  // Ship location
+                case 'g': 
+                    travelledTo([resp.d.lon, resp.d.lat])
+                    break;
+                case 'tm':
+                    document.getElementById('akku_temp').innerText = resp.d.b
+                    document.getElementById('air_temp').innerText = resp.d.a
+                    document.getElementById('water_temp').innerText = resp.d.w
+                    break;
+                case 'tr':
+                    for (const [key, value] of Object.entries(resp.d.a)) {
+                        document.getElementById('water_'+key).style.background = value ? 'red' : 'green'
+                    }
+
+
+                case 'OK.': break;
+
+                case 'd':
+                default:
+                    log('Unknown/Not yet supported response type.')
+                    break;
+            }
+          }
+        };
+        xhttp.open("GET", "/request_data", true);
+        xhttp.send();
+      }
+      function log(msg) {
+          answer = document.getElementById('answer') 
+          const date = new Date()
+          const local = date.toLocaleTimeString()
+          const ms = date.getMilliseconds()
+          answer.innerText += "\n[" + local + "." + date.getMilliseconds() + (ms < 100 ? ms < 10 ? '00' : '0' : '') + "]: " + msg;
+          answer_container = document.getElementById('answer_container')
+          answer_container.scrollTop = answer_container.scrollHeight
+      }
+    </script>
+  </head>
+  <body>
+    <div id="topper"><h1>Hajó controller</h1></div>
+    <div id="control_left">
+      <input type="range" min="-100" max="100" value="0" orient="vertical" class="slider slider-vertical" onmouseup="can_send = true; sendBackMotorData('left');" oninput="if (!same_speed) { document.getElementById('speedlabel_left').innerText = (.01*this.value*5).toFixed(2) + 'V | ' + this.value; } else { sameSpeed(this.value); } sendBackMotorData('left');" id="speedLeft">
+    </div>
+    <div id="middle">
+      <div id="datas">
+        <table>
+          <tr><th colspan="2">Sebességek</th></tr>
+          <tr><td>Bal:</td><td><span id="speedlabel_left">-</span>%</td></tr>
+          <tr><td>Jobb:</td><td><span id="speedlabel_right">-</span>%</td></tr>
+          <tr><th colspan="2">Szenzorok</th></tr>
+          <tr><td>Akku:</td><td><span id="akku_percent">-</span>% <span id="akku_charging">[merítés]</span></td></tr>
+          <tr><td>Akku:</td><td><span id="akku_temp">-</span> °C</td></tr>
+          <tr><td>Levegő:</td><td><span id="air_temp">-</span> °C</td></tr>
+          <tr><td>Víz:</td><td><span id="water_temp">-</span> °C</td></tr>
+          <tr><th colspan="2">Vízszint</th></tr>
+          <tr><td>&uarr;BE<span class="red" id="water_ulf"></span></td><td>&uarr;JE<span class="red" id="water_urf"></span></td></tr>
+          <tr><td>&uarr;BH<span class="red" id="water_ulb"></span></td><td>&uarr;JH<span class="red" id="water_urb"></span></td></tr>
+          <tr><td>&darr;BE <span class="red" id="water_blf"></span></td><td>&darr;JE <span class="red" id="water_brf"></span></td></tr>
+          <tr><td>&darr;BH <span class="red" id="water_blb"></span></td><td>&darr;JH <span class="red" id="water_brb"></span></td></tr>
+        </table>
+      </div>
+      <div id="datas2">
+        <table>
+          <tr><th colspan="2">ESP-M3</th></tr>
+          <tr><td>Cím:</td><td><span id="something">-</span>%</td></tr>
+        </table>
+        <table>
+          <tr><th colspan="2">GSM</th></tr>
+          <tr><td>Cím:</td><td><span id="something">-</span>%</td></tr>
+        </table>
+      </div>
+      <div id="datas3">
+        <table>
+          <tr><th colspan="2">Iránytű</th></tr>
+          <tr><td>Cím:</td><td><span id="something">-</span>%</td></tr>
+        </table>
+        <table>
+          <tr><th colspan="2">GPS</th></tr>
+          <tr><td>Cím:</td><td><span id="something">-</span>%</td></tr>
+        </table>
+      </div>
+
+      <div id="clocks">
+        <div class="circle">
+          <div class="inner-text"><span>Sebesség</span></div>
+          <div class="line-base" id="__0percent"><div></div></div>
+          <div class="line-base" id="__10percent"><div></div><span>10</span></div>
+          <div class="line-base" id="__20percent"><div></div><span>20</span></div>
+          <div class="line-base" id="__30percent"><div></div><span>30</span></div>
+          <div class="line-base" id="__40percent"><div></div><span>40</span></div>
+          <div class="line-base" id="__50percent"><div></div><span>50</span></div>
+          <div class="line-base" id="__60percent"><div></div><span>60</span></div>
+          <div class="line-base" id="__70percent"><div></div><span>70</span></div>
+          <div class="line-base" id="__80percent"><div></div><span>80</span></div>
+          <div class="line-base" id="__90percent"><div></div><span>90</span></div>
+          <div class="line-base" id="__100percent"><div><span>100</span></div></div>
+          <div class="line" id="speed_line"></div>
+        </div>
+        <div class="circle">
+          <div class="inner-text"><span>Kanyarodás</span></div>
+          <div class="line-base" id="__n75deg"><div></div><span>-75&#176;</span></div>
+          <div class="line-base" id="__n50deg"><div></div><span>-50&#176;</span></div>
+          <div class="line-base" id="__n25deg"><div></div><span>-25&#176;</span></div>
+          <div class="line-base" id="__0deg"><div></div><span>0&#176;</span></div>
+          <div class="line-base" id="__25deg"><div></div><span>25&#176;</span></div>
+          <div class="line-base" id="__50deg"><div></div><span>50&#176;</span></div>
+          <div class="line-base" id="__75deg"><div></div><span>75&#176;</span></div>
+          <div class="line" id="deg_line"></div>
+        </div>
+      </div>
+
+      <div id="answer_container">
+          <pre id="answer">
+
+          </pre>
+      </div>
+    </div>
+    <div id="buttons_div">
+      <a href="auto">Autómatikus vezérlés</a>
+      <div id="right_topper">
+        <input id="input_sameSpeed" type="checkbox" checked="true" oninput="same_speed = this.checked;"/><label style="cursor: pointer;" onclick="if (same_speed) { document.getElementById('input_sameSpeed').checked = false; same_speed = false; } else { document.getElementById('input_sameSpeed').checked = true; same_speed = true; }">Sebesség lock</label>
+      </div>
+    </div>
+    <div id="control_right">
+      <input type="range" min="-100" max="100" value="0" orient="vertical" class="slider slider-vertical" onmouseup="can_send = true; sendBackMotorData('right');" oninput="if (!same_speed) { document.getElementById('speedlabel_right').innerText = (.01*this.value*5).toFixed(2) + 'V | ' + this.value; } else { sameSpeed(this.value); } sendBackMotorData('right');" id="speedRight">
+    </div>
+    <script>
+      setInterval(requestData, 100);
+    </script>
+  </body>
+</html>
